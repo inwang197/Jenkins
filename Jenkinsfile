@@ -28,6 +28,14 @@ pipeline {
                 // sh 'mvn test'
                 // sh 'mvn integration-test'
             }
+            post {
+                success {
+                    emailext body: "Unit and Integration Tests passed. No errors found.", subject: "Unit and Integration Tests - Success", to: "inwang197@gmail.com"
+                }
+                failure {
+                    emailext body: "Unit and Integration Tests failed. Please check the attached logs.", subject: "Unit and Integration Tests - Failed", to: "inwang197@gmail.com", attachLog: true
+                }
+            }
         }
         stage('Code Analysis') {
             steps {
@@ -43,6 +51,14 @@ pipeline {
                 echo "Performing security scan using OWASP ZAP"
                 // Example:
                 // sh 'zap-cli --spider <target_url>'
+            }
+            post {
+                success {
+                    emailext body: "Unit and Integration Tests passed. No errors found.", subject: "Unit and Integration Tests - Success", to: "inwang197@gmail.com"
+                }
+                failure {
+                    emailext body: "Unit and Integration Tests failed. Please check the attached logs.", subject: "Unit and Integration Tests - Failed", to: "inwang197@gmail.com", attachLog: true
+                }
             }
         }
         stage('Deploy to Staging') {
